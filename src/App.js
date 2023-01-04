@@ -1,37 +1,22 @@
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
-import React, { Component } from 'react'
+import Home from './Home';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import ClientList from './ClientList';
+import ClientEdit from "./ClientEdit";
 
-class App extends React.Component {
-  state = {
-    sessions: []
-  };
-
-  async componentDidMount() {
-    const response = await fetch('/api/v1/sessions');
-    console.log(response);
-    const body = await response.json();
-    this.setState({sessions: body});
-
-  }
-
+class App extends Component {
   render() {
-    const {sessions} = this.state;
     return (
-        <div className="App">
-          <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <div className="App-intro">
-              <h2>Sessions</h2>
-              {sessions.map(session =>
-                  <div key={session[["session_id"]]}>
-                    {session[["session_name"]]} ({session[["session_length"]]})
-                  </div>
-              )}
-            </div>
-          </header>
-        </div>
-    );
+        <Router>
+          <Switch>
+            <Route path='/' exact={true} component={Home}/>
+            <Route path='/clients' exact={true} component={ClientList}/>
+            <Route path='/clients/:id' component={ClientEdit}/>
+          </Switch>
+        </Router>
+    )
   }
 }
+
 export default App;
