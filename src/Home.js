@@ -6,11 +6,14 @@ import { Button, Container } from 'reactstrap';
 
 class Home extends Component {
     render() {
+        function refreshPage(){ 
+            window.location.reload(); 
+        }
         return (
             <div>
                 <AppNavbar/>
                 <Container fluid>
-                    <Button color="link"><Link to="/clients">Clients</Link></Button>
+                    <Button onClick={ refreshPage } color="link"><Link to="/clients">Clients</Link></Button>
                 </Container>
             </div>
         );

@@ -4,7 +4,6 @@ import AppNavbar from './AppNavbar.js';
 import { Link } from 'react-router-dom';
 
 class sessionList extends Component {
-
     constructor(props) {
         super(props);
         this.state = {sessions: []};
@@ -31,6 +30,9 @@ class sessionList extends Component {
     }
     
     render() {
+        function refreshPage(){ 
+            window.location.reload(); 
+        }
         const {sessions, isLoading} = this.state;
     
         if (isLoading) {
@@ -43,8 +45,8 @@ class sessionList extends Component {
                 <td>{session["session_length"]}</td>
                 <td>
                     <ButtonGroup>
-                        <Button size="sm" color="primary" tag={Link} to={"/sessions/" + session["session_id"]}>Edit</Button>
-                        <Button size="sm" color="danger" onClick={() => this.remove(session["session_id"])}>Delete</Button>
+                        <Button onClick1={ refreshPage } size="sm" color="primary" tag={Link} to={"/sessions/" + session["session_id"]}>Edit</Button>
+                        <Button size="sm" color="danger" onClick1={ refreshPage } onClick={() => this.remove(session["session_id"])}>Delete</Button>
                     </ButtonGroup>
                 </td>
             </tr>
