@@ -6,8 +6,10 @@ import AppNavbar from './AppNavbar.js';
 class ClientEdit extends Component {
     
     emptyItem = {
-        name: '',
-        email: ''
+        session_name: '',
+        session_id: 0,
+        session_length: 0,
+        session_description: ''
     };
 
     constructor(props) {
@@ -31,13 +33,10 @@ class ClientEdit extends Component {
     handleChange(event) {
         const target = event.target;
         const name = target.name;
-        var value;
-        if(name == "session_length" || name == "session_id"){
-            value = parseInt(target.value);
-        }
-        else{
-            value = target.value
-        }
+        var value = target.value;
+        // if(name =="session_id" || name == "session_length"){
+        //     value = Number(value)
+        // }
         let item = {...this.state.item};
         item[name] = value;
         this.setState({item});
@@ -45,7 +44,7 @@ class ClientEdit extends Component {
     async handleSubmit(event) {
         event.preventDefault();
         const {item} = this.state;
-    
+        console.log(item);
         await fetch('/api/v1/sessions' + (item.id ? '/' + item.id : ''), {
             method: (item.id) ? 'PUT' : 'POST',
             headers: {
@@ -54,16 +53,16 @@ class ClientEdit extends Component {
             },
             body: JSON.stringify(item),
         });
-        this.props.history.push('/api/v1/sessions');
+        this.props.history.push('/sessions');
+        window.location.reload();
     }
 
     render() {
+        const {item} = this.state;
+        const title = <h2>Edit Session</h2>;
         function refreshPage(){ 
             window.location.reload(); 
         }
-        const {item} = this.state;
-        const title = <h2>{item.id ? 'Edit Client' : 'Add Client'}</h2>;
-    
         return <div>
             <AppNavbar/>
             <Container>
@@ -75,18 +74,23 @@ class ClientEdit extends Component {
                                onChange={this.handleChange} autoComplete="session_name"/>
                     </FormGroup>
                     <FormGroup>
-                        <Label for="email">ID</Label>
-                        <Input type="text" name="session_id" id="session_id"
+                        <Label for="id">ID</Label>
+                        <Input type="number" name="session_id" id="session_id"
                                onChange={this.handleChange} autoComplete="session_id"/>
                     </FormGroup>
                     <FormGroup>
-                        <Label for="email">Length</Label>
-                        <Input type="integer" name="session_length" id="session_length"
+                        <Label for="length">Length</Label>
+                        <Input type="number" name="session_length" id="session_length"
                                onChange={this.handleChange} autoComplete="session_length"/>
                     </FormGroup>
                     <FormGroup>
+                        <Label for="length">Description</Label>
+                        <Input type="text" name="session_description" id="session_description"
+                               onChange={this.handleChange} autoComplete="session_description"/>
+                    </FormGroup>
+                    <FormGroup>
                         <Button color="primary" type="submit">Save</Button>{' '}
-                        <Button color="secondary" tag={Link} to="/clients">Cancel</Button>
+                        <Button color="secondary" tag={Link} to="/sessions" onClick={refreshPage}>Cancel</Button>
                     </FormGroup>
                 </Form>
             </Container>

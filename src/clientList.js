@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, ButtonGroup, Container, Table } from 'reactstrap';
 import AppNavbar from './AppNavbar.js';
 import { Link } from 'react-router-dom';
+import { useHistory  } from "react-router-dom";
 
 class sessionList extends Component {
     constructor(props) {
@@ -26,6 +27,7 @@ class sessionList extends Component {
         }).then(() => {
             let updatedsessions = [...this.state.sessions].filter(i => i.id !== id);
             this.setState({sessions: updatedsessions});
+            window.location.reload()
         });
     }
     
@@ -38,20 +40,20 @@ class sessionList extends Component {
         if (isLoading) {
             return <p>Loading...</p>;
         }
-        console.log(sessions);
         const sessionList = sessions.map(session => {
             return <tr key={session["session_id"]}>
                 <td style={{whiteSpace: 'nowrap'}}>{session["session_name"]}</td>
                 <td>{session["session_length"]}</td>
+                <td>{session["session_description"]}</td>
                 <td>
                     <ButtonGroup>
-                        <Button onClick1={ refreshPage } size="sm" color="primary" tag={Link} to={"/sessions/" + session["session_id"]}>Edit</Button>
-                        <Button size="sm" color="danger" onClick1={ refreshPage } onClick={() => this.remove(session["session_id"])}>Delete</Button>
+                        <Button  size="sm" color="primary" tag={Link} to={"/sessions/" + session["session_id"]} >Edit</Button>
+                        {/* <Link to={{pathname:"/sessions/" + session["session_id"]}} onClick={refreshPage}>Home</Link> */}
+                        <Button size="sm" color="danger" onClick={() => this.remove(session["session_id"])}>Delete</Button>
                     </ButtonGroup>
                 </td>
             </tr>
         });
-    
         return (
             <div>
                 <AppNavbar/>
@@ -63,9 +65,10 @@ class sessionList extends Component {
                     <Table className="mt-4">
                         <thead>
                         <tr>
-                            <th width="30%">Topic</th>
-                            <th width="30%">Duration</th>
-                            <th width="40%">Actions</th>
+                            <th width="40%">Topic</th>
+                            <th width="10%">Duration</th>
+                            <th width="40%">Description</th>
+                            <th width="10%">Actions</th>
                         </tr>
                         </thead>
                         <tbody>

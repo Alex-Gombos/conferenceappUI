@@ -13,7 +13,8 @@ class Home extends Component {
             <div>
                 <AppNavbar/>
                 <Container fluid>
-                    <Button onClick={ refreshPage } color="link"><Link to="/clients">Clients</Link></Button>
+                    <Button onClick={ refreshPage } color="link"><Link to="/sessions">Sessions</Link></Button>
+                    <Button onClick={ refreshPage } color="link"><Link to="/tickets">Tickets</Link></Button>
                 </Container>
             </div>
         );
